@@ -37,6 +37,26 @@ app.get('/api/quotes', (req, res, next) => {
     }
 });
 
+app.post('/api/quotes', (req, res, next) => {
+    const { quote, person } = req.query;
+
+    // Verify that both quote and person properties exist in the request query string
+    if (!quote || !person) {
+        res.status(400).json({ message: 'Both "quote" and "person" properties are required in the query string.' });
+    } else {
+        // If all is well, create a new quote object
+        const newQuote = {
+            text: quote,
+            person: person
+        };
+
+        // Add the new quote object to the data array
+        quotes.push(newQuote);
+
+        // Send back a response with the new quote object
+        res.status(201).json({ message: 'Quote added successfully', quote: newQuote });
+    }
+});
 
 
 
